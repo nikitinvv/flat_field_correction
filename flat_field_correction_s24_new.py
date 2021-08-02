@@ -98,19 +98,15 @@ if __name__ == "__main__":
     proj_fid = h5py.File(proj_name, 'r')
     flat_fid = h5py.File(flat_name, 'r')
     output_fid = h5py.File(output_name, 'r+')
-    proj = proj_fid['exchange/data']
-    flat = flat_fid['exchange/data'][:]
+    proj = proj_fid['exchange/data_white']
+    flat = flat_fid['exchange/data_white'][:]
+
     del output_fid["/exchange/data"]
     output_proj = output_fid.create_dataset("/exchange/data", proj.shape,
                                     chunks=(1, proj.shape[1], proj.shape[2]), dtype='u8')
-    
+        
     shifts = register_shift_sift(flat,np.median(flat,axis=0))
-    flat_shift = apply_shift(flat, -shifts).astype('uint8')    
-    # dxchange.write_tiff_stack(flat_shift,
-    #                         '/data/staff/tomograms/vviknik/tmp/flatproj_part/f', overwrite=True)
-    # dxchange.write_tiff_stack(flat_shift,
-    #                         '/gdata/RAVEN/vnikitin/2021-07/Sobhani/tmp/fproj_part/f', overwrite=True)                               
-    # exit()
+    flat_shift = apply_shift_batch(flat, -shifts).astype('uint8')    
     
     for ids in chunk(range(proj.shape[0]),128):
         # find flat field shifts w.r.t. each projection by using small parts without sample
@@ -131,14 +127,12 @@ if __name__ == "__main__":
         fproj_part = (proj_part/(flat_part_shift+1e-5))*200
         fproj_part[fproj_part>255] = 255
         fproj_part = fproj_part.astype('uint8')
-        fiproj_part = (proj_part/(flat_part+1e-5))*200
-        fiproj_part[fiproj_part>255] = 255
-        fiproj_part = fiproj_part.astype('uint8')
         
-        # dxchange.write_tiff_stack(fproj_part,
-        #                         '/data/staff/tomograms/vviknik/tmp/fproj_part/f', overwrite=True)                        
+        #fiproj_part = proj_part/(flat_part+1e-5)
         # dxchange.write_tiff_stack(fiproj_part,
-        #                         '/data/staff/tomograms/vviknik/tmp/fiiproj_part/f', overwrite=True)                                                        
+        #                         '/gdata/RAVEN/vnikitin/2021-07/Sobhani/tmp/fiproj_part/f', overwrite=True)
+        # dxchange.write_tiff_stack(fproj_part,
+        #                         '/gdata/RAVEN/vnikitin/2021-07/Sobhani/tmp/fproj_part/f', overwrite=True)                        
         output_proj[ids] = fproj_part                                           
         print('->update projections done')
         

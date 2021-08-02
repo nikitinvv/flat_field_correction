@@ -66,7 +66,7 @@ def register_shift_sift(proj, flat):
                            singlePointColor=None,
                            flags=2)
         tmp3 = cv2.drawMatches(tmp1, kp1, tmp2, kp2, good, None, **draw_params)
-        #cv2.imwrite("original_image_drawMatches.jpg", tmp3)
+        # cv2.imwrite("original_image_drawMatches.jpg", tmp3)
         src_pts = np.float32(
             [kp1[m.queryIdx].pt for m in good]).reshape(-1, 1, 2)
         dst_pts = np.float32(
@@ -85,62 +85,75 @@ def register_shift_sift(proj, flat):
 if __name__ == "__main__":
     proj_name = sys.argv[1]
     flat_name = sys.argv[2]
-    output_name = sys.argv[3]
-    flat_region_xstart = int(sys.argv[4])
-    flat_region_xend = int(sys.argv[5])
-    flat_region_ystart = int(sys.argv[6])
-    flat_region_yend = int(sys.argv[7])
+    dark_name = sys.argv[3]
+    output_name = sys.argv[4]
+    flat_region_xstart = int(sys.argv[5])
+    flat_region_xend = int(sys.argv[6])
+    flat_region_ystart = int(sys.argv[7])
+    flat_region_yend = int(sys.argv[8])
 
     print('->create a new h5 file with corrected projections')
+    sys.stdout.flush()
     cmd = f'cp {proj_name} {output_name}'
     os.system(cmd)
-    print('->copy done')    
+    print('->copy done')        
+    sys.stdout.flush()
     proj_fid = h5py.File(proj_name, 'r')
     flat_fid = h5py.File(flat_name, 'r')
+    dark_fid = h5py.File(dark_name, 'r')
     output_fid = h5py.File(output_name, 'r+')
     proj = proj_fid['exchange/data']
-    flat = flat_fid['exchange/data'][:]
+    flat = flat_fid['exchange/data_white'][:]
+    dark = dark_fid['exchange/data_dark']
+
     del output_fid["/exchange/data"]
+    del output_fid["/exchange/data_white"]
+    del output_fid["/exchange/data_dark"]
     output_proj = output_fid.create_dataset("/exchange/data", proj.shape,
-                                    chunks=(1, proj.shape[1], proj.shape[2]), dtype='u8')
-    
+                                    chunks=(1, proj.shape[1], proj.shape[2]), dtype='f')
+    output_flat = output_fid.create_dataset("/exchange/data_white", flat.shape,
+                                    chunks=(1, flat.shape[1], flat.shape[2]), dtype='f')                                    
+    output_dark = output_fid.create_dataset("/exchange/data_dark", dark.shape,
+                                    chunks=(1, dark.shape[1], dark.shape[2]), dtype='f')                                                                        
     shifts = register_shift_sift(flat,np.median(flat,axis=0))
     flat_shift = apply_shift(flat, -shifts).astype('uint8')    
-    # dxchange.write_tiff_stack(flat_shift,
-    #                         '/data/staff/tomograms/vviknik/tmp/flatproj_part/f', overwrite=True)
-    # dxchange.write_tiff_stack(flat_shift,
-    #                         '/gdata/RAVEN/vnikitin/2021-07/Sobhani/tmp/fproj_part/f', overwrite=True)                               
-    # exit()
+
+    output_flat = 1+0*flat_shift[:]
+    output_dark = 0*dark[:]    
     
     for ids in chunk(range(proj.shape[0]),128):
         # find flat field shifts w.r.t. each projection by using small parts without sample
         print(f'->read data {proj_name} {ids[0]}-{ids[-1]}')
+        sys.stdout.flush()
         flat_part = np.median(flat_shift[:, flat_region_ystart:flat_region_yend,
                         flat_region_xstart:flat_region_xend],axis=0)
+        dark_part = np.median(dark[:, flat_region_ystart:flat_region_yend,
+                        flat_region_xstart:flat_region_xend],axis=0)                        
         proj_part = proj[ids, flat_region_ystart:flat_region_yend,
-                        flat_region_xstart:flat_region_xend][:]
+                        flat_region_xstart:flat_region_xend]
+                          
         print('->register shift')                     
-        shifts = register_shift_sift(proj_part, flat_part)
+        sys.stdout.flush()
+        shifts = register_shift_sift(proj_part-dark_part, flat_part-dark_part)
         print('->read whole projections')                     
+        sys.stdout.flush()
         flat_part = np.median(flat_shift.astype('float32'),axis=0)
         proj_part = proj[ids].astype('float32')
         print('->apply shifts')                         
+        sys.stdout.flush()
         flat_part_shift = apply_shift(np.tile(flat_part,[proj_part.shape[0],1,1]), shifts)
         print('->apply flat field correction')                         
+        sys.stdout.flush()
         
-        fproj_part = (proj_part/(flat_part_shift+1e-5))*200
-        fproj_part[fproj_part>255] = 255
-        fproj_part = fproj_part.astype('uint8')
-        fiproj_part = (proj_part/(flat_part+1e-5))*200
-        fiproj_part[fiproj_part>255] = 255
-        fiproj_part = fiproj_part.astype('uint8')
-        
-        # dxchange.write_tiff_stack(fproj_part,
-        #                         '/data/staff/tomograms/vviknik/tmp/fproj_part/f', overwrite=True)                        
+        fproj_part = (proj_part/(flat_part_shift+1e-5))
+        fiproj_part = proj_part/(flat_part+1e-5)
         # dxchange.write_tiff_stack(fiproj_part,
-        #                         '/data/staff/tomograms/vviknik/tmp/fiiproj_part/f', overwrite=True)                                                        
-        output_proj[ids] = fproj_part                                           
+        #                         '/data/staff/tomograms/vviknik/experiments/APS/2021-07/tmp/fiproj_part/f', overwrite=True)
+        # dxchange.write_tiff_stack(fproj_part,
+        #                         '/data/staff/tomograms/vviknik/experiments/APS/2021-07/tmp/fproj_part/f', overwrite=True)                        
+        output_proj[ids] = fproj_part
         print('->update projections done')
+        sys.stdout.flush()
         
         
         
