@@ -426,8 +426,8 @@ echo $1
 if [ $1 -eq 42 ]
 then
 proj=s24_3d_108
-flat=flat_fields_s24_3d_108
-dark=dark_fields_s24_3d_108
+flat=flat_fields_s24_3d_107
+dark=dark_fields_s24_3d_107
 mkdir -p "$path"_corr
  python flat_field_correction_tomo.py "$path"/"$proj".h5 "$path"/"$flat".h5 "$path"/"$dark".h5 \
 "$path"/tomography_corr/"$proj".h5 2192 2448 0 512 
@@ -436,8 +436,8 @@ echo $1
 if [ $1 -eq 43 ]
 then
 proj=s24_3d_109
-flat=flat_fields_s24_3d_109
-dark=dark_fields_s24_3d_109
+flat=flat_fields_s24_3d_107
+dark=dark_fields_s24_3d_107
 mkdir -p "$path"_corr
  python flat_field_correction_tomo.py "$path"/"$proj".h5 "$path"/"$flat".h5 "$path"/"$dark".h5 \
 "$path"/tomography_corr/"$proj".h5 2192 2448 0 512 
@@ -457,8 +457,8 @@ if [ $1 -eq 45 ]
 then
 for k in {085..092} 131 190 191; do
     proj=s25_3d_"$k"
-    flat=flat_fields_s01plus_3d_"$k"
-    dark=dark_fields_s01plus_3d_"$k"
+    flat=flat_fields_s25_3d_"$k"
+    dark=dark_fields_s25_3d_"$k"
     mkdir -p "$path"_corr
      python flat_field_correction_tomo.py "$path"/"$proj".h5 "$path"/"$flat".h5 "$path"/"$dark".h5 \
     "$path"/tomography_corr/"$proj".h5 2192 2448 0 512 
@@ -469,8 +469,8 @@ if [ $1 -eq 46 ]
 then
 for k in {172} {207..218}; do
     proj=s02_3d_"$k"
-    flat=flat_fields_s01plus_3d_"$k"
-    dark=dark_fields_s01plus_3d_"$k"
+    flat=flat_fields_s02_3d_"$k"
+    dark=dark_fields_s02_3d_"$k"
     mkdir -p "$path"_corr
      python flat_field_correction_tomo.py "$path"/"$proj".h5 "$path"/"$flat".h5 "$path"/"$dark".h5 \
     "$path"/tomography_corr/"$proj".h5 2192 2448 0 512 
@@ -500,18 +500,18 @@ for k in {045..052} 134 135 219; do
     "$path"/tomography_corr/"$proj".h5 2192 2448 0 512 
 done    
 fi
-echo $1 
-if [ $1 -eq 49 ]
-then
-for k in {057..069} {093..096} 136; do
-    proj=s08_3d_"$k"
-    flat=flat_fields_s08_3d_"$k"
-    dark=dark_fields_s08_3d_"$k"
-    mkdir -p "$path"_corr
-     python flat_field_correction_tomo.py "$path"/"$proj".h5 "$path"/"$flat".h5 "$path"/"$dark".h5 \
-    "$path"/tomography_corr/"$proj".h5 2192 2448 0 512 
-done    
-fi
+# echo $1 
+# if [ $1 -eq 49 ]
+# then
+# for k in {057..069} {093..096} 136; do
+#     proj=s08_3d_"$k"
+#     flat=flat_fields_s08_3d_"$k"
+#     dark=dark_fields_s08_3d_"$k"
+#     mkdir -p "$path"_corr
+#      python flat_field_correction_tomo.py "$path"/"$proj".h5 "$path"/"$flat".h5 "$path"/"$dark".h5 \
+#     "$path"/tomography_corr/"$proj".h5 2192 2448 0 512 
+# done    
+# fi
 echo $1 
 if [ $1 -eq 50 ]
 then
@@ -537,6 +537,194 @@ for k in {115..121}; do
 done 
 fi
 
+# {057..069} {093..096} 136
+echo $1 
+if [ $1 -eq 52 ]
+then
+    proj=s08_3d_57
+    flat=flat_fields_s08_3d_58
+    dark=dark_fields_s08_3d_58
+    mkdir -p "$path"_corr
+     python flat_field_correction_tomo.py "$path"/"$proj".h5 "$path"/"$flat".h5 "$path"/"$dark".h5 \
+    "$path"/tomography_corr/"$proj".h5 2192 2448 0 512 
+fi
 
+if [ $1 -eq 53 ]
+then
+    proj=s08_3d_58
+    flat=flat_fields_s08_3d_58
+    dark=dark_fields_s08_3d_58
+    mkdir -p "$path"_corr
+     python flat_field_correction_tomo.py "$path"/"$proj".h5 "$path"/"$flat".h5 "$path"/"$dark".h5 \
+    "$path"/tomography_corr/"$proj".h5 2192 2448 0 512 
+fi
 
+if [ $1 -eq 54 ]
+then
+    proj=s08_3d_59
+    flat=flat_fields_s08_3d_59
+    dark=dark_fields_s08_3d_59
+    mkdir -p "$path"_corr
+     python flat_field_correction_tomo.py "$path"/"$proj".h5 "$path"/"$flat".h5 "$path"/"$dark".h5 \
+    "$path"/tomography_corr/"$proj".h5 2192 2448 0 512 
+fi
 
+if [ $1 -eq 55 ]
+then
+    proj=s08_3d_60
+    flat=flat_fields_s08_3d_59
+    dark=dark_fields_s08_3d_59
+    mkdir -p "$path"_corr
+     python flat_field_correction_tomo.py "$path"/"$proj".h5 "$path"/"$flat".h5 "$path"/"$dark".h5 \
+    "$path"/tomography_corr/"$proj".h5 2192 2448 0 512 
+fi
+
+if [ $1 -eq 56 ]
+then
+    proj=s08_3d_61
+    flat=flat_fields_s08_3d_61
+    dark=dark_fields_s08_3d_61
+    mkdir -p "$path"_corr
+     python flat_field_correction_tomo.py "$path"/"$proj".h5 "$path"/"$flat".h5 "$path"/"$dark".h5 \
+    "$path"/tomography_corr/"$proj".h5 2192 2448 0 512 
+fi
+
+if [ $1 -eq 57 ]
+then
+    proj=s08_3d_62
+    flat=flat_fields_s08_3d_61
+    dark=dark_fields_s08_3d_61
+    mkdir -p "$path"_corr
+     python flat_field_correction_tomo.py "$path"/"$proj".h5 "$path"/"$flat".h5 "$path"/"$dark".h5 \
+    "$path"/tomography_corr/"$proj".h5 2192 2448 0 512 
+fi
+
+if [ $1 -eq 57 ]
+then
+    proj=s08_3d_62
+    flat=flat_fields_s08_3d_61
+    dark=dark_fields_s08_3d_61
+    mkdir -p "$path"_corr
+     python flat_field_correction_tomo.py "$path"/"$proj".h5 "$path"/"$flat".h5 "$path"/"$dark".h5 \
+    "$path"/tomography_corr/"$proj".h5 2192 2448 0 512 
+fi
+
+if [ $1 -eq 58 ]
+then
+    proj=s08_3d_63
+    flat=flat_fields_s08_3d_63
+    dark=dark_fields_s08_3d_63
+    mkdir -p "$path"_corr
+     python flat_field_correction_tomo.py "$path"/"$proj".h5 "$path"/"$flat".h5 "$path"/"$dark".h5 \
+    "$path"/tomography_corr/"$proj".h5 2192 2448 0 512 
+fi
+
+if [ $1 -eq 59 ]
+then
+    proj=s08_3d_64
+    flat=flat_fields_s08_3d_63
+    dark=dark_fields_s08_3d_63
+    mkdir -p "$path"_corr
+     python flat_field_correction_tomo.py "$path"/"$proj".h5 "$path"/"$flat".h5 "$path"/"$dark".h5 \
+    "$path"/tomography_corr/"$proj".h5 2192 2448 0 512 
+fi
+
+if [ $1 -eq 60 ]
+then
+    proj=s08_3d_65
+    flat=flat_fields_s08_3d_65
+    dark=dark_fields_s08_3d_65
+    mkdir -p "$path"_corr
+     python flat_field_correction_tomo.py "$path"/"$proj".h5 "$path"/"$flat".h5 "$path"/"$dark".h5 \
+    "$path"/tomography_corr/"$proj".h5 2192 2448 0 512 
+fi
+
+if [ $1 -eq 61 ]
+then
+    proj=s08_3d_66
+    flat=flat_fields_s08_3d_65
+    dark=dark_fields_s08_3d_65
+    mkdir -p "$path"_corr
+     python flat_field_correction_tomo.py "$path"/"$proj".h5 "$path"/"$flat".h5 "$path"/"$dark".h5 \
+    "$path"/tomography_corr/"$proj".h5 2192 2448 0 512 
+fi
+
+if [ $1 -eq 62 ]
+then
+    proj=s08_3d_67
+    flat=flat_fields_s08_3d_67
+    dark=dark_fields_s08_3d_67
+    mkdir -p "$path"_corr
+     python flat_field_correction_tomo.py "$path"/"$proj".h5 "$path"/"$flat".h5 "$path"/"$dark".h5 \
+    "$path"/tomography_corr/"$proj".h5 2192 2448 0 512 
+fi
+
+if [ $1 -eq 63 ]
+then
+    proj=s08_3d_68
+    flat=flat_fields_s08_3d_67
+    dark=dark_fields_s08_3d_67
+    mkdir -p "$path"_corr
+     python flat_field_correction_tomo.py "$path"/"$proj".h5 "$path"/"$flat".h5 "$path"/"$dark".h5 \
+    "$path"/tomography_corr/"$proj".h5 2192 2448 0 512 
+fi
+
+if [ $1 -eq 64 ]
+then
+    proj=s08_3d_69
+    flat=flat_fields_s08_3d_69
+    dark=dark_fields_s08_3d_69
+    mkdir -p "$path"_corr
+     python flat_field_correction_tomo.py "$path"/"$proj".h5 "$path"/"$flat".h5 "$path"/"$dark".h5 \
+    "$path"/tomography_corr/"$proj".h5 2192 2448 0 512 
+fi
+
+if [ $1 -eq 65 ]
+then
+    proj=s08_3d_93
+    flat=flat_fields_s08_3d_94
+    dark=dark_fields_s08_3d_94
+    mkdir -p "$path"_corr
+     python flat_field_correction_tomo.py "$path"/"$proj".h5 "$path"/"$flat".h5 "$path"/"$dark".h5 \
+    "$path"/tomography_corr/"$proj".h5 2192 2448 0 512 
+fi
+
+if [ $1 -eq 66 ]
+then
+    proj=s08_3d_94
+    flat=flat_fields_s08_3d_94
+    dark=dark_fields_s08_3d_94
+    mkdir -p "$path"_corr
+     python flat_field_correction_tomo.py "$path"/"$proj".h5 "$path"/"$flat".h5 "$path"/"$dark".h5 \
+    "$path"/tomography_corr/"$proj".h5 2192 2448 0 512 
+fi
+
+if [ $1 -eq 67 ]
+then
+    proj=s08_3d_95
+    flat=flat_fields_s08_3d_94
+    dark=dark_fields_s08_3d_94
+    mkdir -p "$path"_corr
+     python flat_field_correction_tomo.py "$path"/"$proj".h5 "$path"/"$flat".h5 "$path"/"$dark".h5 \
+    "$path"/tomography_corr/"$proj".h5 2192 2448 0 512 
+fi
+
+if [ $1 -eq 68 ]
+then
+    proj=s08_3d_96
+    flat=flat_fields_s08_3d_96
+    dark=dark_fields_s08_3d_96
+    mkdir -p "$path"_corr
+     python flat_field_correction_tomo.py "$path"/"$proj".h5 "$path"/"$flat".h5 "$path"/"$dark".h5 \
+    "$path"/tomography_corr/"$proj".h5 2192 2448 0 512 
+fi
+
+if [ $1 -eq 69 ]
+then
+    proj=s08_3d_136
+    flat=flat_fields_s08_3d_136
+    dark=dark_fields_s08_3d_136
+    mkdir -p "$path"_corr
+     python flat_field_correction_tomo.py "$path"/"$proj".h5 "$path"/"$flat".h5 "$path"/"$dark".h5 \
+    "$path"/tomography_corr/"$proj".h5 2192 2448 0 512 
+fi

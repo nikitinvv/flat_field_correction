@@ -118,8 +118,8 @@ if __name__ == "__main__":
     shifts = register_shift_sift(flat,np.median(flat,axis=0))
     flat_shift = apply_shift(flat, -shifts).astype('uint8')    
 
-    output_flat = 1+0*flat_shift[:]
-    output_dark = 0*dark[:]    
+    output_flat[:] = 1+0*flat_shift[:]
+    output_dark[:] = 0*dark[:]    
     
     for ids in chunk(range(proj.shape[0]),128):
         # find flat field shifts w.r.t. each projection by using small parts without sample
